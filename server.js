@@ -107,5 +107,5 @@ app.get('*', isProd ? render : (req, res) => {
 
 const port = process.env.PORT || 8070
 app.listen(port, () => {
-  console.log(`dev server running at http://localhost:${port}`)
+  console.log(`${isProd ? 'production' : 'development'} server running at http://localhost:${port}`)
 })

@@ -8,11 +8,9 @@
 </template>
 
 <script>
-  export default {
-
-  }
+  // import home from './components/Home.vue'
+  export default {}
 </script>
 
 <style lang="scss">
-
 </style>

@@ -25,7 +25,7 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/
       },
-      {
+      /*{
         test: /\.s?css$/,
         use: isProd
           ? ExtractTextPlugin.extract({
@@ -39,7 +39,7 @@ module.exports = {
             fallback: 'vue-style-loader'
           })
           : ['vue-style-loader', 'css-loader', 'sass-loader']
-      },
+      },*/
     ]
   },
   plugins: isProd

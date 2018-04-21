@@ -7,23 +7,45 @@ const {VueLoaderPlugin} = require('vue-loader')
 const isProd = process.env.NODE_ENV === 'production'
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
+const resolve = (dir) => path.join(__dirname, '..', dir)
+
 module.exports = {
   devtool: '#cheap-module-source-map',
   output: {
     path: path.join(__dirname, '../dist'),
     filename: '[name].[chunkhash].js'
   },
+  resolve: {
+    extensions: ['.js', '.vue', '.json'],
+    alias: {
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': resolve('src')
+    }
+  },
   module: {
     rules: [
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: vueLoaderConfig
+        options: {
+          extractCss: true
+        }
+        /*options: Object.assign({}, vueLoaderConfig, {
+          extractCSS: true
+        })*/
       },
       {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: '[name].[ext]?[hash]'
+        }
       },
       {
         test: /\.s?css$/,
@@ -32,13 +54,28 @@ module.exports = {
             use: [
               {
                 loader: 'css-loader',
-                options: { minimize: true }
+                options: {minimize: true}
               },
               'sass-loader'
             ],
             fallback: 'vue-style-loader'
           })
           : ['vue-style-loader', 'css-loader', 'sass-loader']
+      },
+      {
+        test: /\.less$/,
+        use: isProd
+          ? ExtractTextPlugin.extract({
+            use: [
+              {
+                loader: 'css-loader',
+                options: {minimize: true}
+              },
+              'less-loader'
+            ],
+            fallback: 'vue-style-loader'
+          })
+          : ['vue-style-loader', 'css-loader', 'less-loader']
       },
     ]
   },
@@ -49,13 +86,13 @@ module.exports = {
         compress: { warnings: false }
       }),*/
       new UglifyJsPlugin({
-        /*test: /\.js($|\?)/i,
+        test: /\.js($|\?)/i,
         parallel: true,
-        sourceMap: true*/
+        sourceMap: true
       }),
       new webpack.optimize.ModuleConcatenationPlugin(),
       new ExtractTextPlugin({
-        filename: 'common.[chunkhash].css'
+        filename: 'css/[name].[chunkhash].css'
       })
     ]
     : [

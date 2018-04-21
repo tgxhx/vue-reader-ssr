@@ -1,6 +1,7 @@
 // router.js
 import Vue from 'vue'
 import Router from 'vue-router'
+
 Vue.use(Router)
 export function createRouter () {
   return new Router({
@@ -10,10 +11,17 @@ export function createRouter () {
     routes: [
       {
         path: '/', component: () => import('./components/Home.vue')
+        // path: '/', component: Home
       },
       {
+        path: '/bookdetail/:id',
+        name: 'bookdetail',
+        component: () => import('./components/BookDetail.vue')
+      },
+      /*{
         path: '/about', component: () => import('./components/About.vue')
-      }
+        // path: '/about', component: About
+      }*/
     ]
   })
 }

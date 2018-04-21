@@ -1,10 +1,14 @@
+const fs = require('fs')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const baseConfig = require('./webpack.base.config.js')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
+
+fs.writeFileSync('config.json', JSON.stringify(baseConfig))
+
 module.exports = merge(baseConfig, {
   entry: {
-    app: './src/entry-client.js'
+    home: './src/entry-client.js'
   },
   output: {
     publicPath: '/',
