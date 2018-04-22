@@ -45,6 +45,7 @@
 
   export default {
     asyncData({store, route}) {
+      console.log('get booklist')
       return store.dispatch('getBooklist')
     },
     data() {

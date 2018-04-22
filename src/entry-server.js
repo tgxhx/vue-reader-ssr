@@ -1,3 +1,4 @@
+const fs = require('fs')
 import {createApp} from './app'
 const isDev = process.env.NODE_ENV !== 'production'
 export default context => {
@@ -23,10 +24,8 @@ export default context => {
       if (!matchedComponents.length) {
         return reject({code: 404})
       }
-      debugger
       // 对所有匹配的路由组件调用 `asyncData()`
       Promise.all(matchedComponents.map(Component => {
-        debugger
         if (Component.asyncData) {
           return Component.asyncData({
             store,

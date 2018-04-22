@@ -53,6 +53,13 @@ export default {
     state.bookDetail = data
   },
   setBookRelative(state, data) {
+    // debugger
     state.bookRelative = data
+  },
+  setBookCategory(state, data) {
+    state.categoryList = data
+  },
+  setBookContent(state, data) {
+    state.bookContent = Object.assign({}, state.bookContent, data)
   }
 }

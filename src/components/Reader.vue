@@ -2,14 +2,16 @@
   <div id="reader">
     <top-nav></top-nav>
     <div class="read-container" :bg="bg_color" :night="bg_night" ref="fz_size">
-      <h4>{{title}}</h4>
+      <h4>{{bookContent.title}}</h4>
       <div class="chapterContent" v-show="!loading">
-        <p v-for="(c,i) in content" :key="i">{{c}}</p>
+        <p v-for="(c,i) in bookContent.content" :key="i">{{c}}</p>
       </div>
       <div class="btn-bar" v-show="!loading">
         <ul class="btn-tab">
-          <li class="prev-btn" @click="prevChapter">上一章</li>
-          <li class="next-btn" @click="nextChapter">下一章</li>
+          <li class="prev-btn" v-if="chapter > 1"><router-link :to="`/reader/${id}/${chapter - 1}`">上一章</router-link></li>
+          <li v-else class="prev-btn">上一章</li>
+          <li class="next-btn" v-if="chapter < 50"><router-link :to="`/reader/${id}/${chapter + 1}`">下一章</router-link></li>
+          <li v-else class="next-btn">下一章</li>
         </ul>
       </div>
     </div>
@@ -40,6 +42,13 @@
   import Loading from './Loading/Loading.vue'
 
   export default {
+    asyncData({store, route}) {
+      const c = route.params.chapter
+      return store.dispatch('getBookContent', {
+        id: route.params.id,
+        chapter: (c > 50 ? 50 : c) || 1
+      })
+    },
     data() {
       return {
         bar: false,
@@ -60,6 +69,8 @@
       Loading
     },
     created() {
+    },
+    mounted() {
       //判断本地是否存储了阅读器文字大小
       if (localEvent.StorageGetter('fz_size')) {
         this.$store.state.fz_size = localEvent.StorageGetter('fz_size')
@@ -70,7 +81,7 @@
       }
 
       //加载时从localStorage中回去所有数据阅读进度
-      const localBookReaderInfo = localEvent.StorageGetter('bookreaderinfo')
+      /*const localBookReaderInfo = localEvent.StorageGetter('bookreaderinfo')
       let id = this.$route.params.id
 
       //当前书籍以前读过并有阅读进度
@@ -92,9 +103,7 @@
           this.getData(id, 1)
           this.$store.dispatch('curChapter', 1)
         }
-      }
-    },
-    mounted() {
+      }*/
       //因为要获取dom元素，所以不能放到created中
       this.$refs.fz_size.style.fontSize = this.fz_size + 'px'
     },
@@ -106,33 +115,36 @@
       },
       //向上翻页
       pageUp() {
-        let target = document.body.scrollTop - window.screen.height - 80
-        this.startScroll(target, -20)
+        let target = document.documentElement.scrollTop - window.screen.height - 80
+        this.startScroll(target, -100)
       },
       //向下翻页
       pageDown() {
-        let target = document.body.scrollTop + window.screen.height - 80
-        this.startScroll(target, 20)
+        let target = document.documentElement.scrollTop + window.screen.height - 80
+        this.startScroll(target, 100)
       },
       startScroll(target, speed) {
         let times = null
-        times = setInterval(function () {
+        function scroll() {
           if (speed > 0) {
-            if (document.body.scrollTop <= target) {
-              document.body.scrollTop += speed
+            if (document.documentElement.scrollTop <= target) {
+              document.documentElement.scrollTop += speed
+              requestAnimationFrame(scroll)
             }
-            if (document.body.scrollTop > target || document.body.scrollTop + window.screen.height >= document.body.scrollHeight) {
-              clearInterval(times)
+            if (document.documentElement.scrollTop > target || document.documentElement.scrollTop + window.screen.height >= document.documentElement.scrollHeight) {
+              // clearInterval(times)
             }
           } else {
-            if (document.body.scrollTop >= target) {
-              document.body.scrollTop += speed
+            if (document.documentElement.scrollTop >= target) {
+              document.documentElement.scrollTop += speed
+              requestAnimationFrame(scroll)
             }
-            if (document.body.scrollTop < target || document.body.scrollTop <= 0) {
-              clearInterval(times)
+            if (document.documentElement.scrollTop < target || document.documentElement.scrollTop <= 0) {
+              // clearInterval(times)
             }
           }
-        }, 1)
+        }
+        requestAnimationFrame(scroll)
       },
       getData(id, chapter) {
         this.loading = true
@@ -178,8 +190,14 @@
     },
     computed: {
       ...mapState([
-        'font_panel', 'bg_color', 'fz_size', 'bg_night', 'curChapter', 'windowHeight', 'list_panel'
-      ])
+        'font_panel', 'bg_color', 'fz_size', 'bg_night', 'curChapter', 'windowHeight', 'list_panel', 'bookContent'
+      ]),
+      id() {
+        return this.$route.params.id
+      },
+      chapter() {
+        return parseInt(this.$route.params.chapter) || 1
+      }
     },
     watch: {
       //监听fz_size的值更改背景色
@@ -191,7 +209,7 @@
       curChapter(val, oldVal) {
         localEvent.StorageSetter('cur_chapter', val)
         this.saveBooksInfo()
-        this.getData(this.$route.params.id, val)
+        // this.getData(this.$route.params.id, val)
       }
     }
   }
@@ -253,6 +271,9 @@
           &:nth-child(1) {
             border-right: 1px solid #858382;
           }
+        }
+        a {
+          color: #fff;
         }
       }
     }

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import {createRouter} from './router'
-import { createStore } from './store/index'
+import { createStore } from './store'
 import { sync } from 'vuex-router-sync'
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
@@ -15,6 +15,8 @@ export function createApp() {
   // 创建 router 实例
   const router = createRouter()
   const store = createStore()
+  sync(store, router)
+  
   const app = new Vue({
     // 根实例简单的渲染应用程序组件。
     router,

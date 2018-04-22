@@ -1,9 +1,11 @@
 <template>
-  <div class="similar" @click="toBookDetail(bookDetail.id)">
-    <div class="similar-img">
-      <img :src="bookDetail.images" alt="" @error="loadImage($event)">
-    </div>
-    <p>{{bookDetail.name}}</p>
+  <div class="similar">
+    <router-link :to="`/bookdetail/${like.id}`">
+      <div class="similar-img">
+        <img :src="like.images" alt="" @error="loadImage($event)">
+      </div>
+      <p>{{like.name}}</p>
+    </router-link>
   </div>
 </template>
 
@@ -19,7 +21,7 @@
     },
     props: {
       like: {
-        type: String,
+        type: Object,
         required: true
       }
     },
@@ -27,13 +29,14 @@
       ...mapState([])
     },
     created() {
-      this.getBookDetail(this.like)
+      // this.getBookDetail(this.like)
     },
     methods: {
       getBookDetail(id) {
-        axios.get(`${this.common.api}/booklist?id=${id}`).then((res) => {
+        this.$router.push(`bookdetail/${id}`)
+        /*axios.get(`${this.common.api}/booklist?id=${id}`).then((res) => {
           this.bookDetail = res.data
-        })
+        })*/
       },
       toBookDetail(id) {
         this.$router.push({path: '/bookdetail/' + id})
@@ -45,9 +48,9 @@
     },
     filters: {},
     watch: {
-      like(val, old) {
-        this.getBookDetail(val)
-      }
+      /* like(val, old) {
+         this.getBookDetail(val)
+       }*/
     }
   }
 </script>
@@ -56,6 +59,9 @@
   .similar {
     width: 110px;
     height: 165px;
+    > a {
+      display: block;
+    }
     .similar-img {
       height: 140px;
     }

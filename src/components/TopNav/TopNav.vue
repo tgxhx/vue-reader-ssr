@@ -1,7 +1,7 @@
 <template>
   <div class="top-nav" v-show="bar">
     <div class="icon-back">
-      <a href="" @click="back"></a>
+      <router-link :to="`/bookdetail/${$route.params.id}`"></router-link>
     </div>
     <div class="nav-title">返回书架</div>
   </div>

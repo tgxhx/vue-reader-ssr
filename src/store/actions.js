@@ -1,5 +1,11 @@
 import * as types from './mutations-types'
-import {api} from '../assets/js/utils'
+import {
+  fetchBooklist,
+  fetchBookDetail,
+  fetchBookCategory,
+  fetchBookContent,
+  fetchBookChapters
+} from '../api'
 import axios from 'axios'
 
 export default {
@@ -37,22 +43,48 @@ export default {
     commit(types.CUR_CHAPTER, num)
   },
   getBooklist({commit}) {
-    return axios.get(`${api}/booklist`).then(res => {
-      commit('setBooklist', res.data)
+    return fetchBooklist().then(res => {
+      commit('setBooklist', res)
     })
   },
   getBookDetail({commit, dispatch}, id) {
-    return axios.get(`${api}/booklist?id=${id}`).then(res => {
-      commit('setBookDetail', res.data)
-      const likes = res.data.like.split('-')
-      dispatch('getBookRelative', likes)
-    })
+    return fetchBookDetail(id)
+      .then(res => {
+        commit('setBookDetail', res)
+        const ids = res.like.split('-')
+        // dispatch('getBookRelative', ids)
+        const all = ids.map(id => fetchBookDetail(id))
+        return Promise.all(all)
+      })
+      .then(relative => {
+        commit('setBookRelative', relative)
+      })
   },
-  getBookRelative({commit}, idArr) {
-    const all = idArr.map(id => axios.get(`${api}/booklist?id=${id}`))
-    return Promise.all(all)
-      .then((relateive) => {
-        commit('setBookRelative', relateive)
+  getBookRelative({commit}, ids) {
+  
+  },
+  getBookCategory({commit}, type) {
+    return fetchBookCategory(type)
+      .then(res => {
+        commit('setBookCategory', res)
+      })
+  },
+  getBookContent({commit, dispatch}, {id, chapter}) {
+    return fetchBookContent(id, chapter)
+      .then(res => {
+        commit('setBookContent', {
+          title: res.title,
+          content: res.content.split('-')
+        })
+        // return fetchBookChapters(id)
+      })
+      /*.then(res => {
+        /!*commit('setBookContent', {
+          chapterList: res
+        })*!/
+      })*/
+      .catch(err => {
+        console.log(err)
       })
   }
 }

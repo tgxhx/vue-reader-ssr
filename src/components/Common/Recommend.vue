@@ -4,7 +4,7 @@
     <div class="list">
       <ul class="list-ul">
         <li class="list-li" v-for="(item,index) in booklist">
-          <router-link :to="{ path: '/bookdetail/' + item.id}" @click.native="bookDetailId(item.id)">
+          <router-link :to="{ path: '/bookdetail/' + item.id}">
             <img :src="item.images" alt="" @error="loadImage($event)">
             <p class="book-name">{{item.name}}</p>
             <p class="book-author">{{item.author}}</p>
@@ -61,7 +61,10 @@
           /*white-space: normal;*/
           img {
             width: 100%;
-            height:125px;
+            height: 125px;
+          }
+          > a {
+            display: inline-block;
           }
           p {
             overflow: hidden;

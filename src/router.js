@@ -10,7 +10,8 @@ export function createRouter () {
     scrollBehavior: () => ({ y: 0 }),
     routes: [
       {
-        path: '/', component: () => import('./components/Home.vue')
+        path: '/',
+        component: () => import('./components/Home.vue')
         // path: '/', component: Home
       },
       {
@@ -18,10 +19,16 @@ export function createRouter () {
         name: 'bookdetail',
         component: () => import('./components/BookDetail.vue')
       },
-      /*{
-        path: '/about', component: () => import('./components/About.vue')
-        // path: '/about', component: About
-      }*/
+      {
+        path: '/category',
+        name: 'category',
+        component: () => import('./components/Category.vue')
+      },
+      {
+        path: '/reader/:id/:chapter?',
+        name: 'reader',
+        component: () => import('./components/Reader.vue')
+      }
     ]
   })
 }

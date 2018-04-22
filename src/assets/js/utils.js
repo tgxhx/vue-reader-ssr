@@ -2,7 +2,7 @@
  * Created by 12 on 2017/7/6.
  */
 // const api = location.href.indexOf('localhost') > -1 ? 'http://127.0.0.1/book': '/book'
-export const api = 'http://localhost:8000/book'
+export const api = 'http://localhost:3333'
 
 export default {
   install(Vue, options) {

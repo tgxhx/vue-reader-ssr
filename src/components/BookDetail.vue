@@ -4,7 +4,9 @@
     <div class="detail-content" v-if="bookDetail">
       <div class="detail-linear">
         <header class="detail-top">
-          <a @click="back"><i class="back"></i>
+          <a @click="back"><i class="back">
+            <img src="~public/images/back.png" alt="">
+          </i>
             <h2 class="detail-title">{{bookDetail.name}}</h2>
           </a>
           <router-link to="/" class="home-btn"><i class="iconfont icon-home"></i></router-link>
@@ -52,7 +54,7 @@
         <div class="detail-like">
           <h3 class="like-title">喜欢本书的人也喜欢</h3>
           <ul class="like-list">
-            <li v-for="(item,index) in likes">
+            <li v-for="(item,index) in bookRelative">
               <similar :like="item" :key="index"></similar>
             </li>
           </ul>
@@ -72,7 +74,6 @@
 
   export default {
     asyncData({store, route}) {
-      console.log(route.params.id)
       return store.dispatch('getBookDetail', route.params.id)
     },
     data() {
@@ -112,7 +113,8 @@
     computed: {
       ...mapState([
         'curBookDetailId',
-        'bookDetail'
+        'bookDetail',
+        'bookRelative'
       ])
     },
     components: {Similar, Rate, Loading},

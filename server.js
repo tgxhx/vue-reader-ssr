@@ -7,6 +7,7 @@
 const fs = require('fs')
 const path = require('path')
 const express = require('express')
+const compression = require('compression')
 const {createBundleRenderer} = require('vue-server-renderer')
 const template = require('fs').readFileSync('./src/index.template.html', 'utf-8')
 // const serverBundle = require('./dist/vue-ssr-server-bundle.json')
@@ -65,12 +66,11 @@ if (isProd) {
 const serve = (path, cache) => express.static(resolve(path), {
   maxAge: cache && isProd ? 1000 * 60 * 60 * 24 * 30 : 0
 })
-
+app.use(compression({ threshold: 0 }))
 app.use(serve('dist', true))
-
+app.use(serve('public', true))
 function render(req, res) {
   const s = Date.now()
-  
   res.setHeader("Content-Type", "text/html")
   
   const handleError = err => {

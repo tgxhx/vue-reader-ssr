@@ -3,17 +3,20 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const baseConfig = require('./webpack.base.config.js')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
-
+const isProd = process.env.NODE_ENV === 'production'
+const package = require('../package.json')
 fs.writeFileSync('config.json', JSON.stringify(baseConfig))
 
 module.exports = merge(baseConfig, {
   entry: {
-    home: './src/entry-client.js'
+    app: './src/entry-client.js',
+    // vendor: Object.keys(package.dependencies)
   },
   output: {
+    chunkFilename: 'js/[name].[chunkhash].js',
     publicPath: '/',
   },
-  plugins: [
+  plugins: isProd ? [
     // strip dev-only code in Vue source
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
@@ -25,6 +28,7 @@ module.exports = merge(baseConfig, {
     // extract vendor chunks for better caching
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
+      filename: 'js/vendor.[chunkhash] .js',
       minChunks: function (module) {
         // a module is extracted into the vendor chunk if...
         return (
@@ -42,6 +46,12 @@ module.exports = merge(baseConfig, {
     }),
     // 此插件在输出目录中
     // 生成 `vue-ssr-client-manifest.json`。
+    new VueSSRClientPlugin()
+  ] : [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+      'process.env.VUE_ENV': '"client"'
+    }),
     new VueSSRClientPlugin()
   ]
 })

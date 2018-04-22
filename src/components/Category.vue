@@ -9,7 +9,7 @@
     <div class="category-list" v-if="!loading">
       <ul>
         <li v-for="item in categoryList">
-          <router-link :to="{ path: '/bookdetail/' + item.id}" @click.native="bookDetailId(item.id)">
+          <router-link :to="{ path: '/bookdetail/' + item.id}">
             <div class="book-image">
               <img :src="item.images" alt="">
             </div>
@@ -21,7 +21,7 @@
                 <span>{{item.author}}</span>
               </div>
               <div class="category-r">
-                <span>{{bookCategoryType}}</span><span>{{item.serialize}}</span><span>{{item.wordcount}}万字</span>
+                <span>{{item.type}}</span><span>{{item.serialize}}</span><span>{{item.wordcount}}万字</span>
               </div>
             </div>
           </router-link>
@@ -38,14 +38,17 @@
   import Loading from './Loading/Loading.vue'
 
   export default {
+    asyncData({store, route}) {
+      return store.dispatch('getBookCategory', route.query.type)
+    },
     data() {
       return {
-        categoryList: [],
+        // categoryList: [],
         loading: false
       }
     },
     created() {
-      this.getCategory(this.$route.query.type)
+      // this.getCategory(this.$route.query.type)
     },
     methods: {
       getCategory(type) {
@@ -68,7 +71,8 @@
     },
     computed: {
       ...mapState([
-        'bookCategoryType'
+        'bookCategoryType',
+        'categoryList'
       ]),
       title() {
         switch (this.$route.query.type) {

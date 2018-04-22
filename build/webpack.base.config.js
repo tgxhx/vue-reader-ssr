@@ -13,13 +13,15 @@ module.exports = {
   devtool: '#cheap-module-source-map',
   output: {
     path: path.join(__dirname, '../dist'),
-    filename: '[name].[chunkhash].js'
+    filename: 'js/[name].[chunkhash].js',
+    publicPath: '/'
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src')
+      '@': resolve('src'),
+      'public': resolve('public')
     }
   },
   module: {
@@ -44,7 +46,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: '[name].[ext]?[hash]'
+          name: 'images/[name].[ext]?[hash]'
         }
       },
       {
