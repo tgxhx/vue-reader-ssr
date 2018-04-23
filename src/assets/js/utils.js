@@ -12,7 +12,7 @@ if (!(typeof exports === 'object' && typeof module !== 'undefined')) {
   // 判断local或server
   if (process.env.NODE_ENV !== 'production') {
   } else {
-    api = 'http://127.0.0.1/book'
+    api = 'http://127.0.0.1:3333'
   }
 }
 
