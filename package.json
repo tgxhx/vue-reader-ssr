@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env PORT=8088 node server",
+    "dev": "cross-env NODE_ENV=development PORT=8088 node server",
+    "start:local": "cross-env NODE_ENV=production-local PORT=8080 pm2 start server.js -n ssr",
     "start": "cross-env NODE_ENV=production PORT=8080 pm2 start server.js -n ssr",
     "build": "rimraf dist && npm run build:client && npm run build:server",
     "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.client.config.js --progress --hide-modules",

@@ -47,7 +47,6 @@ router.onReady(() => {
     Promise.all(asyncDataHooks.map(hook => hook({store, route: to})))
       .then((...res) => {
         // 停止加载指示器(loading indicator)
-        console.log(res)
         next()
       }).catch(next)
   })

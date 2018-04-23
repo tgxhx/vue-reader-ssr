@@ -1,7 +1,7 @@
 {
   "publicPath": "/",
   "all": [
-    "js/app.d44405f0ebe1d082448d.js",
+    "js/app.835862615d766ee3af10.js",
     "images/back.png?d06bcf334c397cbe0d3ba1db45031c62",
     "images/2.jpg?3cfb1121e6469e4a76cb8b4bfbbcf46f",
     "images/3.jpg?afa33f34428bddd9de87ee6b94009a86",
@@ -14,20 +14,20 @@
     "js/vendor.f98869164426ca061781 .js",
     "images/1.jpg?e64fa904062140a5eca23d2412692c44",
     "js/manifest.d25919bc65e053437acf.js",
-    "css/app.d44405f0ebe1d082448d.css",
+    "css/app.835862615d766ee3af10.css",
     "js/0.bac0010979a110c1394b.js.map",
     "js/1.c49483cb5a7fb3d8b2ce.js.map",
     "js/2.61bfcbf89bc81b408a02.js.map",
     "js/3.ada574a52a74ace63f81.js.map",
     "js/vendor.f98869164426ca061781 .js.map",
-    "js/app.d44405f0ebe1d082448d.js.map",
-    "css/app.d44405f0ebe1d082448d.css.map",
+    "js/app.835862615d766ee3af10.js.map",
+    "css/app.835862615d766ee3af10.css.map",
     "js/manifest.d25919bc65e053437acf.js.map"
   ],
   "initial": [
     "js/manifest.d25919bc65e053437acf.js",
     "js/vendor.f98869164426ca061781 .js",
-    "js/app.d44405f0ebe1d082448d.js"
+    "js/app.835862615d766ee3af10.js"
   ],
   "async": [
     "js/0.bac0010979a110c1394b.js",
