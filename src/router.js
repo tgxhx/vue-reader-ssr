@@ -6,6 +6,7 @@ Vue.use(Router)
 export function createRouter () {
   return new Router({
     mode: 'history',
+    base: '/reader-ssr/',
     fallback: false,
     scrollBehavior: () => ({ y: 0 }),
     routes: [
