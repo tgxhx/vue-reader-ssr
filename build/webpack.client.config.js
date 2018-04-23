@@ -14,7 +14,7 @@ module.exports = merge(baseConfig, {
   },
   output: {
     chunkFilename: 'js/[name].[chunkhash].js',
-    publicPath: '/',
+    publicPath: '/reader-ssr/',
   },
   plugins: isProd ? [
     // strip dev-only code in Vue source
