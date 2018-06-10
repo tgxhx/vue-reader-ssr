@@ -5,7 +5,6 @@ const baseConfig = require('./webpack.base.config.js')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 const isProd = process.env.NODE_ENV === 'production'
 const package = require('../package.json')
-fs.writeFileSync('config.json', JSON.stringify(baseConfig))
 
 module.exports = merge(baseConfig, {
   entry: {

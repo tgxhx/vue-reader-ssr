@@ -7,11 +7,11 @@
       </header>
       <div class="swipe">
         <mt-swipe :auto="5000">
-          <mt-swipe-item><img src="../assets/images/1.jpg" alt=""></mt-swipe-item>
-          <mt-swipe-item><img src="../assets/images/2.jpg" alt=""></mt-swipe-item>
-          <mt-swipe-item><img src="../assets/images/3.jpg" alt=""></mt-swipe-item>
-          <mt-swipe-item><img src="../assets/images/4.jpg" alt=""></mt-swipe-item>
-          <mt-swipe-item><img src="../assets/images/5.jpg" alt=""></mt-swipe-item>
+          <mt-swipe-item><img src="/reader-ssr/images/1.jpg" alt=""></mt-swipe-item>
+          <mt-swipe-item><img src="/reader-ssr/images/2.jpg" alt=""></mt-swipe-item>
+          <mt-swipe-item><img src="/reader-ssr/images/3.jpg" alt=""></mt-swipe-item>
+          <mt-swipe-item><img src="/reader-ssr/images/4.jpg" alt=""></mt-swipe-item>
+          <mt-swipe-item><img src="/reader-ssr/images/5.jpg" alt=""></mt-swipe-item>
         </mt-swipe>
       </div>
     </nav>
